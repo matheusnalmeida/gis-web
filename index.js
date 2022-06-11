@@ -4,7 +4,13 @@ window.onload = function(){
         maxZoom: 19,
         attribution: '© OpenStreetMap'
     });//.addTo(map);
-    osm.addTo(map);
+
+    googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    });
+
+    googleSat.addTo(map);
 
     addPopUp(map);
 
@@ -12,12 +18,15 @@ window.onload = function(){
     let shpLimiteProvincias = loadShapefile(map, './data/limite_provincias.zip');
 
     var baseMaps = {
-        "BaseLayer": osm
+        "OpenStreetMap": osm,
+        "Satellite": googleSat
     };
+
     var overlays = {
             "Espessura": shpEspessura,
             "LimiteProvincias": shpLimiteProvincias
         };
+
     L.control.layers(baseMaps,overlays).addTo(map);
 }
 
